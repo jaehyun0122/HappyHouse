@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.ChartLocationMapper">
+
+	<select id="getSido" resultType="chartSidoGugunDongCode">
+		select left(sidoCode,2) sidoCode, sidoName,sidoHit
+		from chartSidocode
+		order by sidoHit desc limit 5
+	</select>
+	
+	<select id="getGugunInSido" parameterType="string" resultType="chartSidoGugunDongCode">
+		select left(gugunCode,5) gugunCode, gugunName,gugunHit
+		from chartGuguncode
+		where left(gugunCode,2) = #{sido}
+		order by gugunHit desc limit 5
+	</select>
+	
+	<select id="getDongInGugun" parameterType="string" resultType="chartSidoGugunDongCode">
+		select distinct dongName, dongCode,dongHit
+		from chartDongcode
+		where left(dongCode, 5) = #{gugun}
+		order by dongHit desc limit 5
+	</select>
+
+	<update id="updateSido" parameterType="String">
+		update chartSidocode
+		set sidoHit = sidoHit + 1
+		where left(sidoCode,2) = #{sidoCode}
+	</update>
+	
+	<update id="updateGugun" parameterType="String">
+		update chartGuguncode
+		set gugunHit = gugunHit + 1
+		where left(gugunCode,5) = #{gugunCode}
+	</update>
+	
+	<update id="updateDong" parameterType="String">
+		update chartDongcode
+		set dongHit = dongHit + 1
+		where dongCode = #{dongCode}
+	</update>
+</mapper>
