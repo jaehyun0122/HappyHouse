@@ -1,0 +1,36 @@
+cors:
+  allowed-origins: http://localhost:3000
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: authorization,content-type,x-auth-token
+  max-age: 3600
+
+jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'
+
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpiry: 180000000
+    refreshTokenExpiry: 604800000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth/redirect
+
+server:
+  port: 8080
+
+spring:
+  profiles:
+    include:
+      - oauth
+      - db
+  jpa:
+    show-sql: true #sql을 보여줌
+    properties:
+      hibernate:
+        format_sql: true #sql을 개행해서 보여줌
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL8Dialect
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
